@@ -417,10 +417,11 @@ with from the aforementioned readers when using arrow, and get the same
 results. The underlying code is pretty different though, and type
 inference is done on the whole column rather than an initial subset.</p>
 <p>In addition, Arrow has a different set of possible data types
-compared to R; see (link here to Danielle update to the docs) for more
-information about the mapping between R data types and Arrow types.</p>
-<p>In the Arrow docs (<a href="https://arrow.apache.org/docs/cpp/csv.html#data-types" class="uri">https://arrow.apache.org/docs/cpp/csv.html#data-types</a>),
-we can see that types are inferred in this order:</p>
+compared to R; see <a href="https://arrow.apache.org/docs/r/articles/arrow.html">the Arrow
+docs</a> for more information about the mapping between R data types and
+Arrow types.</p>
+<p>In <a href="https://arrow.apache.org/docs/cpp/csv.html#data-types">the Arrow
+docs</a>, we can see that types are inferred in this order:</p>
 <ul>
 <li><p>Null</p></li>
 <li><p>Int64</p></li>
@@ -435,9 +436,9 @@ true)</p></li>
 <li><p>String</p></li>
 <li><p>Binary</p></li>
 </ul>
-<p>Note that if you use <code>read_csv_arrow()</code> with parameter
-<code>as_data_frame = TRUE</code> (the default), the Arrow data types
-are then converted to R data types.</p>
+<p>Note that if you use <code>arrow::read_csv_arrow()</code> with
+parameter <code>as_data_frame = TRUE</code> (the default), the Arrow
+data types are then converted to R data types.</p>
 <pre class="r"><code>simple_data &lt;- data.frame(x = c(1, 2, 3), y = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), z = c(1.1, 2.2, 3.3))
 
 write.csv(simple_data, &quot;simple_data.csv&quot;, row.names = FALSE)
@@ -464,10 +465,10 @@ inference?</h2>
 <p>Although there appear to be quite a few differences between the order
 of type inference when comparing arrow and readr, in practice, this
 doesn’t have much effect. Type inference for logical/boolean and integer
-values are the opposite way round, but given that these types look very
-different to each other, they’re not going to be mixed up. The biggest
-differences come from custom behaviours which are specific to readr and
-arrow; I’ve outlined them below.</p>
+values are the opposite way round, but given that the underlying data
+that translates into these types looks very different, they’re not going
+to be mixed up. The biggest differences come from custom behaviours
+which are specific to readr and arrow; I’ve outlined them below.</p>
 <div id="guessing-integers" class="section level3">
 <h3>Guessing integers</h3>
 <p>In the code for readr, the default setting is for numeric values to
@@ -689,9 +690,12 @@ readr::read_csv(&quot;given_types.csv&quot;, col_types = list(col_integer(), col
 ## 2     2     5
 ## 3     3     6</code></pre>
 <p>In arrow you can use the shortcodes (though not the
-<code>col_*()</code> functions), but you must specify the column names.
-We skip the first row as using names and types in
-<code>readr::read_csv()</code> also assumes the header is data.</p>
+<code>col_*()</code> functions), but you must specify the column
+names.</p>
+<p>We skip the first row as our data has a header row - this is the same
+behaviour as when we use both names and types in
+<code>readr::read_csv()</code> which then assumes that the header row is
+data if we don’t skip it.</p>
 <pre class="r"><code>arrow::read_csv_arrow(&quot;given_types.csv&quot;, col_names = c(&quot;x&quot;, &quot;y&quot;), col_types = &quot;id&quot;, skip = 1)</code></pre>
 <pre><code>## # A tibble: 3 × 2
 ##       x     y
@@ -699,10 +703,10 @@ We skip the first row as using names and types in
 ## 1     1     4
 ## 2     2     5
 ## 3     3     6</code></pre>
-<p>What if you want to use Arrow types though? In this case, you need to
-use a schema. I won’t go into detail here, but in short, schemas are
-lists of fields, all of which contain a field name and a data type. You
-can specify a schema like this:</p>
+<p>What if you want to use Arrow types instead of R types though? In
+this case, you need to use a schema. I won’t go into detail here, but in
+short, schemas are lists of fields, all of which contain a field name
+and a data type. You can specify a schema like this:</p>
 <pre class="r"><code># this gives the same result as before - because our Arrow data has been converted to the relevant R type
 arrow::read_csv_arrow(&quot;given_types.csv&quot;, schema = schema(x = int8(), y = float32()), skip = 1)</code></pre>
 <pre><code>## # A tibble: 3 × 2
