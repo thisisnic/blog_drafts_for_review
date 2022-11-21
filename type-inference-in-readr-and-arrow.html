@@ -474,8 +474,9 @@ which are specific to readr and arrow; I’ve outlined them below.</p>
 <p>In the code for readr, the default setting is for numeric values to
 always be read in as doubles but never integers. If you want readr to
 guess that a column may be an integer, you need to read it in as
-character data, and then call type_convert(). In arrow, if data can be
-represented as integers but not doubles, then it will be.</p>
+character data, and then call <code>type_convert()</code>. In arrow, if
+data can be represented as integers but not doubles, then it will
+be.</p>
 <pre class="r"><code>int_or_dbl &lt;- data.frame(
   x = c(1L, 2L, 3L)
 )
