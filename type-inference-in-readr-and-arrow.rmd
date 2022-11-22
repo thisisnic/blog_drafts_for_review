@@ -12,6 +12,14 @@ In this blog post, I'm going to discuss how CSV type inference works in
 the R packages [readr](https://readr.tidyverse.org/) and [arrow](https://arrow.apache.org/docs/r/), and highlight the differences between
 the two.
 
+Before I get started though, I'd like to acknowledge that this post is 
+an exercise in examining the underlying mechanics of the two packages. 
+In practice, I've found that when working with datasets small enough 
+to fit in-memory, it's much more fruitful to either read in the data 
+first and then manipulate it into the required shape, or just specify
+the column types up front.  Still, the strategies for automatic guessing 
+are interesting to explore.
+
 <p align="center">
 ![](images/readr_hex.png){width=200px}
 ![](images/arrow-logo_hex_black-txt_white-bg.png){width=200px}
@@ -124,7 +132,9 @@ Although there appear to be quite a few differences between the order of type in
 
 ### Guessing integers
 
-In the code for readr, the default setting is for numeric values to always be read in as doubles but never integers.  If you want readr to guess that a column may be an integer, you need to read it in as character data, and then call `type_convert()`.  In arrow, if data can be represented as integers but not doubles, then it will be.
+In the code for readr, the default setting is for numeric values to always be read in as doubles but never integers.  If you want readr to guess that a column may be an integer, you need to read it in as character data, and then call `type_convert()`.  This isn't ncessarily a great workflow though, and in most cases it would make sense to just manually specify the column type instead of having it inferred.
+
+In arrow, if data can be represented as integers but not doubles, then it will be.
 
 ```{r}
 int_or_dbl <- data.frame(
@@ -140,15 +150,18 @@ readr::read_csv("int_or_dbl.csv")
 ```
 
 ```{r}
-
-# integer
+# integer via inference
 readr::read_csv("int_or_dbl.csv", col_types = list(.default = col_character())) %>%
   type_convert(guess_integer = TRUE)
-
 ```
 
 ```{r}
-# integer
+# integer via specification
+readr::read_csv("int_or_dbl.csv", col_types = list(col_integer()))
+```
+
+```{r}
+# integer via inference
 arrow::read_csv_arrow("int_or_dbl.csv")
 ```
 
@@ -234,7 +247,6 @@ alternative_true_false <- arrow::CsvConvertOptions$create(
 )
 arrow::read_csv_arrow("dict_type.csv", convert_options = alternative_true_false)
 ```
-
 
 ## Using schemas for manual control of data types
 
