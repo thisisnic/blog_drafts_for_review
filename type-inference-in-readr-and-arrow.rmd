@@ -199,7 +199,7 @@ arrow::read_csv_arrow("number_type.csv")
 
 Anyone who’s been around long enough might remember that R’s native CSV reading function `read.csv()` had a default setting of importing character columns as factors (I definitely have `read.csv(..., stringAsFactors=FALSE)` carved into a groove in some dark corner of my memory).  This default was changed in version 4.0.0, released in April 2020, reflecting the fact that in most cases users want their string data to be imported as characters unless otherwise specified.  Still, some datasets contain character data which users do want to import as factors.  In reader, this can be controlled by manually specifying the column as a factor
 
-In arrow, if you don’t want to individually specify column types, you can set up an option to import character columns as dictionaries (the equivalent of factors), which are converted into factors.
+In arrow, if you don’t want to individually specify column types, you can set up an option to import character columns as dictionaries (the Arrow equivalent of factors), which are converted into factors.
 
 ```{r}
 dict_type <- data.frame(
