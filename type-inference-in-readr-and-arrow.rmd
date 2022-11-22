@@ -37,8 +37,7 @@ Since readr version 2.0.0 (released in July 2020), there was a significant
 overhaul of the underlying code, which subsequently depended on the 
 [vroom](https://vroom.r-lib.org/) package.
 
-In readr, the first step is reading in a subset of the data (by default,
-1000 rows, though this can be customised). The type inference is done by
+The type inference is done by
 a C++ function in vroom called `guess_type__()` which guesses types in
 the following order:
 
@@ -82,8 +81,7 @@ interface has been designed to closely follow the excellent APIs of
 `readr::read_csv()` and `vroom::vroom()`. The intention here is that
 users can use parameter names they're familiar with from the
 aforementioned readers when using arrow, and get the same results. The
-underlying code is pretty different though, and type inference is done
-on the whole column rather than an initial subset.
+underlying code is pretty different though.
 
 In addition, Arrow has a different set of possible data types compared
 to R; see [the Arrow docs](https://arrow.apache.org/docs/r/articles/arrow.html) for more
