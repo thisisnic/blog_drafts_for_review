@@ -265,7 +265,7 @@ arrow::read_csv_arrow("given_types.csv", schema = schema(x = int8(), y = float32
 
 ## Parquet
 
-An alternative approach though, where you can specify your schema along with your data instead of when reading the data in, is to use Parquet format.  This means that if you’re sharing your data with others, you don’t need to worry about it being read in as the wrong data types.  In a follow-up post I’ll explore the Parquet format and compare management of data types in CSVs and Parquet.
+An alternative approach is to use Parquet format, which stores the data types along with the data.  This means that if you’re sharing your data with others, you don’t need to worry about it being read in as the wrong data types.  In a follow-up post I’ll explore the Parquet format and compare management of data types in CSVs and Parquet.
 
 ## Further Reading
 If you want a much more detailed discussion of Arrow data types, see [this excellent blog post](https://blog.djnavarro.net/posts/2022-03-04_data-types-in-arrow-and-r/) by Danielle Navarro.
