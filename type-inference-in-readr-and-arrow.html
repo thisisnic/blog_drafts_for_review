@@ -556,8 +556,10 @@ integer that R can natively support, and then another column containing
 that value plus 1, we get different behaviour when we import this data
 with readr and arrow. In readr, when we enable integer guessing, the
 smaller value is read in as an integer, and the larger value is read in
-as a double. In arrow, the use of the bit64 package means both values
-can be represented as integers.</p>
+as a double. However, once we move over to manually specifying column
+types, we can use <code>vroom::col_big_integer()</code> to use bit64 and
+get us a large integer column. The arrow package also uses bit64, and
+its integer guessing results in 64-bit integer via inference.</p>
 <pre class="r"><code>sixty_four &lt;- data.frame(x = 2^31 - 1, y = 2^31)
 
 readr::write_csv(sixty_four, &quot;sixty_four.csv&quot;)
@@ -575,12 +577,6 @@ readr::read_csv(&quot;sixty_four.csv&quot;)</code></pre>
 ##            x          y
 ##        &lt;dbl&gt;      &lt;dbl&gt;
 ## 1 2147483647 2147483648</code></pre>
-<pre class="r"><code># 32 or 64 bit integer depending on value size
-arrow::read_csv_arrow(&quot;sixty_four.csv&quot;)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##            x          y
-##        &lt;int&gt;    &lt;int64&gt;
-## 1 2147483647 2147483648</code></pre>
 <pre class="r"><code># 32 bit integer or double depending on value size
 readr::read_csv(&quot;sixty_four.csv&quot;, col_types = list(.default = col_character())) %&gt;%
   type_convert(guess_integer = TRUE)</code></pre>
@@ -593,6 +589,21 @@ readr::read_csv(&quot;sixty_four.csv&quot;, col_types = list(.default = col_char
 <pre><code>## # A tibble: 1 × 2
 ##            x          y
 ##        &lt;int&gt;      &lt;dbl&gt;
+## 1 2147483647 2147483648</code></pre>
+<pre class="r"><code># integers by specification
+readr::read_csv(
+  &quot;sixty_four.csv&quot;,
+  col_types = list(x = col_integer(), y = vroom::col_big_integer())
+)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##            x          y
+##        &lt;int&gt;    &lt;int64&gt;
+## 1 2147483647 2147483648</code></pre>
+<pre class="r"><code># integers by inference
+arrow::read_csv_arrow(&quot;sixty_four.csv&quot;)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##            x          y
+##        &lt;int&gt;    &lt;int64&gt;
 ## 1 2147483647 2147483648</code></pre>
 </div>
 <div id="the-number-parsing-strategy" class="section level3">

@@ -171,7 +171,7 @@ arrow::read_csv_arrow("int_or_dbl.csv")
 
 ### 32-bit integers
 
-Another difference between readr and arrow is the difference between how integers larger than 32 bits are read in.  Natively, R can only support 32-bit integers, though it can support 64-bit integers via the bit64 package.  If we create a CSV with one column containing the largest integer that R can natively support, and then another column containing that value plus 1, we get different behaviour when we import this data with readr and arrow.  In readr, when we enable integer guessing, the smaller value is read in as an integer, and the larger value is read in as a double.  In arrow, the use of the bit64 package means both values can be represented as integers.
+Another difference between readr and arrow is the difference between how integers larger than 32 bits are read in.  Natively, R can only support 32-bit integers, though it can support 64-bit integers via the bit64 package.  If we create a CSV with one column containing the largest integer that R can natively support, and then another column containing that value plus 1, we get different behaviour when we import this data with readr and arrow.  In readr, when we enable integer guessing, the smaller value is read in as an integer, and the larger value is read in as a double.  However, once we move over to manually specifying column types, we can use `vroom::col_big_integer()` to use bit64 and get us a large integer column.  The arrow package also uses bit64, and its integer guessing results in 64-bit integer via inference.
 
 ```{r}
 sixty_four <- data.frame(x = 2^31 - 1, y = 2^31)
@@ -183,14 +183,22 @@ readr::read_csv("sixty_four.csv")
 ```
 
 ```{r}
-# 32 or 64 bit integer depending on value size
-arrow::read_csv_arrow("sixty_four.csv")
-```
-
-```{r}
 # 32 bit integer or double depending on value size
 readr::read_csv("sixty_four.csv", col_types = list(.default = col_character())) %>%
   type_convert(guess_integer = TRUE)
+```
+
+```{r}
+# integers by specification
+readr::read_csv(
+  "sixty_four.csv",
+  col_types = list(x = col_integer(), y = vroom::col_big_integer())
+)
+```
+
+```{r}
+# integers by inference
+arrow::read_csv_arrow("sixty_four.csv")
 ```
 
 ### The "number" parsing strategy
