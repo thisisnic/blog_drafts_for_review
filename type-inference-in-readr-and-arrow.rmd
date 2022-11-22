@@ -106,7 +106,7 @@ converted to R data types.
 ```{r}
 simple_data <- data.frame(x = c(1, 2, 3), y = c("a", "b", "c"), z = c(1.1, 2.2, 3.3))
 
-write.csv(simple_data, "simple_data.csv", row.names = FALSE)
+readr::write_csv(simple_data, "simple_data.csv")
 
 # columns are arrow's int64, string, and double (aka float64) types
 arrow::read_csv_arrow("simple_data.csv", as_data_frame = FALSE)
@@ -130,7 +130,7 @@ int_or_dbl <- data.frame(
   x = c(1L, 2L, 3L)
 )
 
-write.csv(int_or_dbl, "int_or_dbl.csv", row.names = FALSE)
+readr::write_csv(int_or_dbl, "int_or_dbl.csv")
 
 readLines("int_or_dbl.csv")
 
@@ -158,9 +158,9 @@ Another difference between readr and arrow is the difference between how integer
 ```{r}
 sixty_four <- data.frame(x = 2^31 - 1, y = 2^31)
 
-write.csv(sixty_four, "sixty_four.csv", row.names = FALSE)
+readr::write_csv(sixty_four, "sixty_four.csv")
 
-# integer by default
+# doubles by default
 readr::read_csv("sixty_four.csv")
 ```
 
@@ -184,7 +184,7 @@ number_type <- data.frame(
   x = c("1,000", "1,250")
 )
 
-write.csv(number_type, "number_type.csv", row.names = FALSE)
+readr::write_csv(number_type, "number_type.csv")
 
 # double type, but read in as number initially
 readr::read_csv("number_type.csv")
@@ -206,7 +206,7 @@ dict_type <- data.frame(
   x = c("yes", "no", "yes", "no")
 )
 
-write.csv(dict_type, "dict_type.csv", row.names = FALSE)
+readr::write_csv(dict_type, "dict_type.csv")
 
 # character data
 readr::read_csv("dict_type.csv")
@@ -232,7 +232,7 @@ In readr, you can use the `col_types` parameter to specify column types. You can
 ```{r}
 given_types <- data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
 
-write.csv(given_types, "given_types.csv", row.names = FALSE)
+readr::write_csv(given_types, "given_types.csv")
 
 readr::read_csv("given_types.csv", col_types = list(col_integer(), col_double()))
 ```

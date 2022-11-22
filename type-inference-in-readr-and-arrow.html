@@ -441,7 +441,7 @@ parameter <code>as_data_frame = TRUE</code> (the default), the Arrow
 data types are then converted to R data types.</p>
 <pre class="r"><code>simple_data &lt;- data.frame(x = c(1, 2, 3), y = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), z = c(1.1, 2.2, 3.3))
 
-write.csv(simple_data, &quot;simple_data.csv&quot;, row.names = FALSE)
+readr::write_csv(simple_data, &quot;simple_data.csv&quot;)
 
 # columns are arrow&#39;s int64, string, and double (aka float64) types
 arrow::read_csv_arrow(&quot;simple_data.csv&quot;, as_data_frame = FALSE)</code></pre>
@@ -481,10 +481,10 @@ be.</p>
   x = c(1L, 2L, 3L)
 )
 
-write.csv(int_or_dbl, &quot;int_or_dbl.csv&quot;, row.names = FALSE)
+readr::write_csv(int_or_dbl, &quot;int_or_dbl.csv&quot;)
 
 readLines(&quot;int_or_dbl.csv&quot;)</code></pre>
-<pre><code>## [1] &quot;\&quot;x\&quot;&quot; &quot;1&quot;     &quot;2&quot;     &quot;3&quot;</code></pre>
+<pre><code>## [1] &quot;x&quot; &quot;1&quot; &quot;2&quot; &quot;3&quot;</code></pre>
 <pre class="r"><code># double
 readr::read_csv(&quot;int_or_dbl.csv&quot;)</code></pre>
 <pre><code>## Rows: 3 Columns: 1
@@ -537,9 +537,9 @@ as a double. In arrow, the use of the bit64 package means both values
 can be represented as integers.</p>
 <pre class="r"><code>sixty_four &lt;- data.frame(x = 2^31 - 1, y = 2^31)
 
-write.csv(sixty_four, &quot;sixty_four.csv&quot;, row.names = FALSE)
+readr::write_csv(sixty_four, &quot;sixty_four.csv&quot;)
 
-# integer by default
+# doubles by default
 readr::read_csv(&quot;sixty_four.csv&quot;)</code></pre>
 <pre><code>## Rows: 1 Columns: 2
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -582,7 +582,7 @@ arrow.</p>
   x = c(&quot;1,000&quot;, &quot;1,250&quot;)
 )
 
-write.csv(number_type, &quot;number_type.csv&quot;, row.names = FALSE)
+readr::write_csv(number_type, &quot;number_type.csv&quot;)
 
 # double type, but read in as number initially
 readr::read_csv(&quot;number_type.csv&quot;)</code></pre>
@@ -620,12 +620,12 @@ users do want to import as factors. In reader, this can be controlled by
 manually specifying the column as a factor</p>
 <p>In arrow, if you don’t want to individually specify column types, you
 can set up an option to import character columns as dictionaries (the
-equivalent of factors), which are converted into factors.</p>
+Arrow equivalent of factors), which are converted into factors.</p>
 <pre class="r"><code>dict_type &lt;- data.frame(
   x = c(&quot;yes&quot;, &quot;no&quot;, &quot;yes&quot;, &quot;no&quot;)
 )
 
-write.csv(dict_type, &quot;dict_type.csv&quot;, row.names = FALSE)
+readr::write_csv(dict_type, &quot;dict_type.csv&quot;)
 
 # character data
 readr::read_csv(&quot;dict_type.csv&quot;)</code></pre>
@@ -673,7 +673,7 @@ column types. You can use the same parameter in arrow to use R type
 specifications.</p>
 <pre class="r"><code>given_types &lt;- data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
 
-write.csv(given_types, &quot;given_types.csv&quot;, row.names = FALSE)
+readr::write_csv(given_types, &quot;given_types.csv&quot;)
 
 readr::read_csv(&quot;given_types.csv&quot;, col_types = list(col_integer(), col_double()))</code></pre>
 <pre><code>## # A tibble: 3 × 2
