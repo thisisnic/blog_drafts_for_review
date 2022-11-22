@@ -616,7 +616,7 @@ in some dark corner of my memory). This default was changed in version
 4.0.0, released in April 2020, reflecting the fact that in most cases
 users want their string data to be imported as characters unless
 otherwise specified. Still, some datasets contain character data which
-users do want to import as factors. In reader, this can be controlled by
+users do want to import as factors. In readr, this can be controlled by
 manually specifying the column as a factor</p>
 <p>In arrow, if you don’t want to individually specify column types, you
 can set up an option to import character columns as dictionaries (the
@@ -682,7 +682,8 @@ readr::read_csv(&quot;given_types.csv&quot;, col_types = list(col_integer(), col
 ## 1     1     4
 ## 2     2     5
 ## 3     3     6</code></pre>
-<p>You can also use this shortcode specification.</p>
+<p>You can also use this shortcode specification. Here, “i” means
+integer and “d” means double.</p>
 <pre class="r"><code>readr::read_csv(&quot;given_types.csv&quot;, col_types = &quot;id&quot;)</code></pre>
 <pre><code>## # A tibble: 3 × 2
 ##       x     y
@@ -706,7 +707,7 @@ data if we don’t skip it.</p>
 ## 3     3     6</code></pre>
 <p>What if you want to use Arrow types instead of R types though? In
 this case, you need to use a schema. I won’t go into detail here, but in
-short, schemas are lists of fields, all of which contain a field name
+short, schemas are lists of fields, each of which contain a field name
 and a data type. You can specify a schema like this:</p>
 <pre class="r"><code># this gives the same result as before - because our Arrow data has been converted to the relevant R type
 arrow::read_csv_arrow(&quot;given_types.csv&quot;, schema = schema(x = int8(), y = float32()), skip = 1)</code></pre>
@@ -725,12 +726,11 @@ arrow::read_csv_arrow(&quot;given_types.csv&quot;, schema = schema(x = int8(), y
 </div>
 <div id="parquet" class="section level2">
 <h2>Parquet</h2>
-<p>An alternative approach though, where you can specify your schema
-along with your data instead of when reading the data in, is to use
-Parquet format. This means that if you’re sharing your data with others,
-you don’t need to worry about it being read in as the wrong data types.
-In a follow-up post I’ll explore the Parquet format and compare
-management of data types in CSVs and Parquet.</p>
+<p>An alternative approach is to use Parquet format, which stores the
+data types along with the data. This means that if you’re sharing your
+data with others, you don’t need to worry about it being read in as the
+wrong data types. In a follow-up post I’ll explore the Parquet format
+and compare management of data types in CSVs and Parquet.</p>
 </div>
 <div id="further-reading" class="section level2">
 <h2>Further Reading</h2>
