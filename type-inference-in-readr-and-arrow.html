@@ -528,13 +528,13 @@ arrow::read_csv_arrow(&quot;int_or_dbl.csv&quot;)</code></pre>
 <p>Another difference between readr and arrow is the difference between
 how integers larger than 32 bits are read in. Natively, R can only
 support 32-bit integers, though it can support 64-bit integers via the
-bit64 package. If we create a CSVe with one column containing the
-largest integer that R can natively support, and then another column
-containing that value plus 1, we get different behaviour when we import
-this data with readr and arrow. In readr, when we enable integer
-guessing, the smaller value is read in as an integer, and the larger
-value is read in as a double. In arrow, the use of the bit64 package
-means both values can be represented as integers.</p>
+bit64 package. If we create a CSV with one column containing the largest
+integer that R can natively support, and then another column containing
+that value plus 1, we get different behaviour when we import this data
+with readr and arrow. In readr, when we enable integer guessing, the
+smaller value is read in as an integer, and the larger value is read in
+as a double. In arrow, the use of the bit64 package means both values
+can be represented as integers.</p>
 <pre class="r"><code>sixty_four &lt;- data.frame(x = 2^31 - 1, y = 2^31)
 
 write.csv(sixty_four, &quot;sixty_four.csv&quot;, row.names = FALSE)
