@@ -224,6 +224,18 @@ auto_dict_option <- arrow::CsvConvertOptions$create(auto_dict_encode = TRUE)
 arrow::read_csv_arrow("dict_type.csv", convert_options = auto_dict_option)
 ```
 
+### Custom logical/boolean values
+
+Another slightly niche but potentially useful piece of functionality available in arrow is the ability to customise which values can be parsed as logical/boolean type and how they translate to `TRUE`/`FALSE`.  This can be achieved by setting some custom conversion options.
+
+```{r}
+alternative_true_false <- arrow::CsvConvertOptions$create(
+  false_values = "no", true_values = "yes"
+)
+arrow::read_csv_arrow("dict_type.csv", convert_options = alternative_true_false)
+```
+
+
 ## Using schemas for manual control of data types
 
 Although relying on the reader itself to guess your column types can work well, what if you want more precise control?
