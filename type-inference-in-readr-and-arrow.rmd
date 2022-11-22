@@ -251,7 +251,7 @@ We skip the first row as our data has a header row - this is the same behaviour 
 arrow::read_csv_arrow("given_types.csv", col_names = c("x", "y"), col_types = "id", skip = 1)
 ```
 
-What if you want to use Arrow types instead of R types though? In this case, you need to use a schema.  I won’t go into detail here, but in short, schemas are lists of fields, all of which contain a field name and a data type.  You can specify a schema like this:
+What if you want to use Arrow types instead of R types though? In this case, you need to use a schema.  I won’t go into detail here, but in short, schemas are lists of fields, each of which contain a field name and a data type.  You can specify a schema like this:
 
 ```{r}
 # this gives the same result as before - because our Arrow data has been converted to the relevant R type
