@@ -171,7 +171,7 @@ arrow::read_csv_arrow("int_or_dbl.csv")
 
 ### 32-bit integers
 
-Another difference between readr and arrow is the difference between how integers larger than 32 bits are read in.  Natively, R can only support 32-bit integers, though it can support 64-bit integers via the bit64 package.  If we create a CSV with one column containing the largest integer that R can natively support, and then another column containing that value plus 1, we get different behaviour when we import this data with readr and arrow.  In readr, when we enable integer guessing, the smaller value is read in as an integer, and the larger value is read in as a double.  However, once we move over to manually specifying column types, we can use `vroom::col_big_integer()` to use bit64 and get us a large integer column.  The arrow package also uses bit64, and its integer guessing results in 64-bit integer via inference.
+Another difference between readr and arrow is the difference between how integers larger than 32 bits are read in.  Natively, R can only support 32-bit integers, though it can support 64-bit integers via the [bit64](https://cran.r-project.org/web/packages/bit64/index.html) package.  If we create a CSV with one column containing the largest integer that R can natively support, and then another column containing that value plus 1, we get different behaviour when we import this data with readr and arrow.  In readr, when we enable integer guessing, the smaller value is read in as an integer, and the larger value is read in as a double.  However, once we move over to manually specifying column types, we can use `vroom::col_big_integer()` to use bit64 and get us a large integer column.  The arrow package also uses bit64, and its integer guessing results in 64-bit integer via inference.
 
 ```{r}
 sixty_four <- data.frame(x = 2^31 - 1, y = 2^31)
@@ -306,3 +306,7 @@ An alternative approach is to use Parquet format, which stores the data types al
 
 ## Further Reading
 If you want a much more detailed discussion of Arrow data types, see [this excellent blog post](https://blog.djnavarro.net/posts/2022-03-04_data-types-in-arrow-and-r/) by Danielle Navarro.
+
+## Thanks
+
+Huge thanks to everyone who helped review and tweak this blog post, and special thanks to [Jenny Bryan](https://github.com/jennybc) who gave some really helpful feedback on the content on readr/vroom!

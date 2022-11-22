@@ -551,7 +551,8 @@ arrow::read_csv_arrow(&quot;int_or_dbl.csv&quot;)</code></pre>
 <p>Another difference between readr and arrow is the difference between
 how integers larger than 32 bits are read in. Natively, R can only
 support 32-bit integers, though it can support 64-bit integers via the
-bit64 package. If we create a CSV with one column containing the largest
+<a href="https://cran.r-project.org/web/packages/bit64/index.html">bit64</a>
+package. If we create a CSV with one column containing the largest
 integer that R can natively support, and then another column containing
 that value plus 1, we get different behaviour when we import this data
 with readr and arrow. In readr, when we enable integer guessing, the
@@ -790,6 +791,13 @@ and compare management of data types in CSVs and Parquet.</p>
 <p>If you want a much more detailed discussion of Arrow data types, see
 <a href="https://blog.djnavarro.net/posts/2022-03-04_data-types-in-arrow-and-r/">this
 excellent blog post</a> by Danielle Navarro.</p>
+</div>
+<div id="thanks" class="section level2">
+<h2>Thanks</h2>
+<p>Huge thanks to everyone who helped review and tweak this blog post,
+and special thanks to <a href="https://github.com/jennybc">Jenny
+Bryan</a> who gave some really helpful feedback on the content on
+readr/vroom!</p>
 </div>
 </div>
 
