@@ -57,7 +57,8 @@ the following order:
 The ordering above in the parsing bullet point goes from most to least
 strict in terms of the conditions which have to be met to successfully
 parse an input as that data type. For example, for a column to be of
-logical type, it can only contain `TRUE`, `FALSE`, or `NA` values, which
+logical type, it can only contain a small subset of values representing 
+true (`T`, `t`, `True`, `TRUE`, `true`), false (`F`, `f`, `False`, `FALSE`, `false`) or NA, which
 is why this is the most strict type, but all of the other types could be
 read in as character data, which is the least strict and why this is
 last in the order.
