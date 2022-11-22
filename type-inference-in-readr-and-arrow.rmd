@@ -33,6 +33,10 @@ library(readr)
 
 ## How does type inference work in readr?
 
+Since readr version 2.0.0 (released in July 2020), there was a significant 
+overhaul of the underlying code, which subsequently depended on the 
+[vroom](https://vroom.r-lib.org/) package.
+
 In readr, the first step is reading in a subset of the data (by default,
 1000 rows, though this can be customised). The type inference is done by
 a C++ function in readr called `collectorGuess()` which guesses types in
@@ -132,7 +136,7 @@ Although there appear to be quite a few differences between the order of type in
 
 ### Guessing integers
 
-In the code for readr, the default setting is for numeric values to always be read in as doubles but never integers.  If you want readr to guess that a column may be an integer, you need to read it in as character data, and then call `type_convert()`.  This isn't ncessarily a great workflow though, and in most cases it would make sense to just manually specify the column type instead of having it inferred.
+In the code for readr, the default setting is for numeric values to always be read in as doubles but never integers.  If you want readr to guess that a column may be an integer, you need to read it in as character data, and then call `type_convert()`.  This isn't necessarily a great workflow though, and in most cases it would make sense to just manually specify the column type instead of having it inferred.
 
 In arrow, if data can be represented as integers but not doubles, then it will be.
 
