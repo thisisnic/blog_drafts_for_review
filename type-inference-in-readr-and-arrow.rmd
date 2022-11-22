@@ -237,7 +237,7 @@ write.csv(given_types, "given_types.csv", row.names = FALSE)
 readr::read_csv("given_types.csv", col_types = list(col_integer(), col_double()))
 ```
 
-You can also use this shortcode specification.
+You can also use this shortcode specification. Here, "i" means integer and "d" means double.
 
 ```{r}
 readr::read_csv("given_types.csv", col_types = "id")
