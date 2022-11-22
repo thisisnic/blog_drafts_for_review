@@ -388,7 +388,7 @@ significant overhaul of the underlying code, which subsequently depended
 on the <a href="https://vroom.r-lib.org/">vroom</a> package.</p>
 <p>In readr, the first step is reading in a subset of the data (by
 default, 1000 rows, though this can be customised). The type inference
-is done by a C++ function in readr called <code>collectorGuess()</code>
+is done by a C++ function in vroom called <code>guess_type__()</code>
 which guesses types in the following order:</p>
 <ul>
 <li><p>Does the column contain 0 rows? If yes, return
