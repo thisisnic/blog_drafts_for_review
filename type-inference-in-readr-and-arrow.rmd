@@ -91,9 +91,9 @@ that types are inferred in this order:
 
 -   Float64
 
--   Dictionary<String> (if ConvertOptions::auto_dict_encode is true)
+-   Dictionary\<String\> (if ConvertOptions::auto_dict_encode is true)
 
--   Dictionary<Binary> (if ConvertOptions::auto_dict_encode is true)
+-   Dictionary\<Binary\> (if ConvertOptions::auto_dict_encode is true)
 
 -   String
 
